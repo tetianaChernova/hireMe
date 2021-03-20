@@ -1,5 +1,6 @@
 package com.chernova.hire.service;
 
+import com.chernova.hire.model.CurriculumVitae;
 import com.chernova.hire.model.Role;
 import com.chernova.hire.model.User;
 import com.chernova.hire.repo.UserRepo;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,13 +27,13 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Service
 public class UserService implements UserDetailsService {
-	@Autowired
+	@Resource
 	private UserRepo userRepo;
 	//	@Autowired
 //	private UserRepository userNeo4jRepo;
-	@Autowired
+	@Resource
 	private MailService mailService;
-	@Autowired
+	@Resource
 	private PasswordEncoder passwordEncoder;
 
 	@Override
@@ -52,7 +54,8 @@ public class UserService implements UserDetailsService {
 		user.setRoles(Collections.singleton(Role.USER));
 		user.setActivationCode(UUID.randomUUID().toString());
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+		CurriculumVitae cv = CurriculumVitae.builder().user(user).build();
+		user.setCv(cv);
 		userRepo.save(user);
 
 		if (isFalse(isEmpty(user.getEmail()))) {

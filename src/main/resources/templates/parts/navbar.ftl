@@ -11,18 +11,21 @@
         <ul class="navbar-nav mr-auto">
             <#if isRecruiter>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/main/posts">Posts</a>
+                    <a class="nav-link" href="/users">Posts</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/candidate-list">Candidate list</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/user/recommendations">Recommendations</a>
+                    <a class="nav-link" href="/users/recommendations">Recommendations</a>
                 </li>
             </#if>
-            <#if user??>
+            <#if user?? && !isRecruiter>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/user/profile">Edit profile</a>
+                    <a class="nav-link" href="/users/cv">My CV</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/users/profile">Edit profile</a>
                 </li>
             </#if>
         </ul>

@@ -10,8 +10,6 @@
      ">
         <div class="Header-Container pages__HeaderContainer-ahg9qh-5 jQKrkx">
             <h1 class="pages__HeaderText-ahg9qh-6 fwTLVF">HireMe</h1>
-<#--            <h1 class="pages__HeaderText-ahg9qh-6 fwTLVF">best place for</h1>-->
-<#--            <h1 class="pages__HeaderText-ahg9qh-6 fwTLVF">finding candidates</h1>-->
         </div>
     </div>
 </@c.page>
