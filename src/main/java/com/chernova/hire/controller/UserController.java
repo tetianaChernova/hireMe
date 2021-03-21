@@ -1,7 +1,7 @@
 package com.chernova.hire.controller;
 
+import com.chernova.hire.dto.ProfileEditDto;
 import com.chernova.hire.model.User;
-import com.chernova.hire.repo.UserRepo;
 import com.chernova.hire.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,8 +30,6 @@ public class UserController {
 
 	@Resource
 	private UserService userService;
-	@Resource
-	private UserRepo userRepository;
 
 	@PreAuthorize("hasAuthority('RECRUITER')")
 	@GetMapping
@@ -46,17 +44,11 @@ public class UserController {
 		return "cv";
 	}
 
-	@PostMapping("/profile")
-	public String editUserProfile(
-			@RequestParam("file") MultipartFile file,
-			@RequestParam String password,
-			@RequestParam(required = false) String email,
-			@AuthenticationPrincipal User user) throws IOException {
-		String filename = ControllerUtils.setUploadedFile(file, uploadPath);
-		if (nonNull(filename) && isFalse(isEmpty(filename))) {
-			user.setFilename(filename);
-		}
-//		userService.update(user, password, email);
-		return "redirect:/logout";
+
+	@PostMapping("/cv/edit")
+	public String edit(Model model, @AuthenticationPrincipal User user, ProfileEditDto profileEditDto) {
+		User updatedUser = userService.updateProfile(user, profileEditDto);
+		model.addAttribute("user", updatedUser);
+		return "redirect:/users/cv";
 	}
 }

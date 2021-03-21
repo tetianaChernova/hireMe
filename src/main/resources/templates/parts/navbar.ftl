@@ -24,9 +24,6 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/users/cv">My CV</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/users/profile">Edit profile</a>
-                </li>
             </#if>
         </ul>
         <div class="navbar-text mr-3"><#if user??>${name}<#else>Please, login</#if></div>

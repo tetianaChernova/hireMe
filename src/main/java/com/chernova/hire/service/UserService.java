@@ -1,10 +1,10 @@
 package com.chernova.hire.service;
 
+import com.chernova.hire.dto.ProfileEditDto;
 import com.chernova.hire.model.CurriculumVitae;
 import com.chernova.hire.model.Role;
 import com.chernova.hire.model.User;
 import com.chernova.hire.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,13 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -88,20 +84,22 @@ public class UserService implements UserDetailsService {
 		return userRepo.findAll();
 	}
 
-	public void saveUser(User user, String username, Map<String, String> form) {
-		user.setUsername(username);
-
-		Set<String> roles = Arrays.stream(Role.values())
-				.map(Role::name)
-				.collect(Collectors.toSet());
-
-		user.getRoles().clear();
-		form.keySet().forEach(key -> {
-			if (roles.contains(key)) {
-				user.getRoles().add(Role.valueOf(key));
-			}
-		});
+	public User updateProfile(User user, ProfileEditDto profileEditDto) {
+		user.setEmail(profileEditDto.getEmail());
+		CurriculumVitae cv = user.getCv();
+		cv.setFirstName(profileEditDto.getFirstName());
+		cv.setLastName(profileEditDto.getLastName());
+		cv.setCity(profileEditDto.getCity());
+		cv.setNationality(profileEditDto.getNationality());
+		cv.setDescription(profileEditDto.getDescription());
+		cv.setExperience(profileEditDto.getExperience());
+		cv.setPosition(profileEditDto.getPosition());
+		cv.setTitle(profileEditDto.getTitle());
+		cv.setPhone(profileEditDto.getPhone());
+		cv.setUser(user);
+		user.setCv(cv);
 		userRepo.save(user);
+		return user;
 	}
 }
 
