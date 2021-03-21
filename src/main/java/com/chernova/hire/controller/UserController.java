@@ -9,17 +9,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-
-import static java.util.Objects.nonNull;
-import static org.apache.commons.lang3.BooleanUtils.isFalse;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Controller
 @RequestMapping("/users")
@@ -38,17 +32,20 @@ public class UserController {
 		return "posts";
 	}
 
-	@GetMapping("/cv")
-	public String getUserProfile(Model model, @AuthenticationPrincipal User user) {
-		model.addAttribute("user", user);
+	@GetMapping("/cv/{userId}")
+	public String getUserProfile(Model model, @AuthenticationPrincipal User authenticatedUser, @PathVariable Long userId) {
+		User candidate = userService.findById(userId);
+		model.addAttribute("candidate", candidate);
 		return "cv";
 	}
 
 
-	@PostMapping("/cv/edit")
-	public String edit(Model model, @AuthenticationPrincipal User user, ProfileEditDto profileEditDto) {
+	@PreAuthorize("hasAuthority('USER')")
+	@PostMapping("/cv/{userId}/edit")
+	public String edit(Model model, @AuthenticationPrincipal User user, @PathVariable Long userId, ProfileEditDto profileEditDto) {
 		User updatedUser = userService.updateProfile(user, profileEditDto);
 		model.addAttribute("user", updatedUser);
-		return "redirect:/users/cv";
+		return "redirect:/users/cv/" + userId;
 	}
+
 }

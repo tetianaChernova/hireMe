@@ -19,9 +19,6 @@ public class MainController {
 			@RequestParam(required = false, defaultValue = "") String filter,
 			@AuthenticationPrincipal User user,
 			Model model) {
-//		Iterable<MessageDto> messages = messageService.getMessageList(filter, user);
-//		model.addAttribute("messages", messages);
-//		model.addAttribute("filter", filter);
 		return "main";
 	}
 

@@ -1,3 +1,4 @@
+<#include "parts/security.ftl">
 <#import "parts/common.ftl" as c>
 <@c.page "/static/profile.css">
     <div class="profile-page">
@@ -14,9 +15,9 @@
                                                 <div class="row">
                                                     <div class="col-12 col-sm-auto mb-3">
                                                         <div class="mx-auto" style="width: 140px;">
-                                                            <#if user??>
-                                                                <#if user.filename??>
-                                                                    <img src="/img/${user.filename}" alt="Circle Image"
+                                                            <#if candidate??>
+                                                                <#if candidate.filename??>
+                                                                    <img src="/img/${candidate.filename}" alt="Circle Image"
                                                                          class="img-raised rounded-circle img-fluid"
                                                                          style="width: 140px;height: 140px;">
                                                                 <#else>
@@ -30,9 +31,9 @@
                                                     </div>
                                                     <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                                                         <div class="text-center text-sm-left mb-2 mb-sm-0">
-                                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap"><#if user.cv.firstName??>${user.cv.firstName}<#else>First name</#if> <#if user.cv.lastName??>${user.cv.lastName}<#else>Last name</#if></h4>
-                                                            <p class="mb-0"><#if user.username??>${user.username}<#else>@username</#if></p>
-                                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap"><#if user.cv.title??>${user.cv.title}<#else>Title</#if></h4>
+                                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap"><#if candidate.cv.firstName??>${candidate.cv.firstName}<#else>First name</#if> <#if candidate.cv.lastName??>${candidate.cv.lastName}<#else>Last name</#if></h4>
+                                                            <p class="mb-0"><#if candidate.username??>${candidate.username}<#else>@username</#if></p>
+                                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap"><#if candidate.cv.title??>${candidate.cv.title}<#else>Title</#if></h4>
                                                         </div>
                                                         <#--                                                        <div class="mt-2">-->
                                                         <#--                                                            <button class="btn btn-primary" type="button">-->
@@ -42,7 +43,7 @@
                                                         <#--                                                        </div>-->
                                                     </div>
                                                     <div class="text-center text-sm-right">
-                                                        <span class="badge badge-secondary"><#if user.roles??>${user.roles[0]}<#else>user</#if></span>
+                                                        <span class="badge badge-secondary"><#if candidate.roles??>${candidate.roles[0]}<#else>user</#if></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -54,7 +55,7 @@
                                         </ul>
                                         <div class="tab-content pt-3" style="margin: 1rem!important;">
                                             <div class="tab-pane active">
-                                                <form class="form" novalidate="" action="/users/cv/edit" method="post"
+                                                <form class="form" novalidate="" action="/users/cv/${candidate.id}/edit" method="post"
                                                       id="editForm" enctype="multipart/form-data">
                                                     <div class="row">
                                                         <div class="col">
@@ -63,18 +64,18 @@
                                                                     <div class="form-group">
                                                                         <label>First Name</label>
                                                                         <input class="form-control" type="text"
-                                                                               name="firstName"
-                                                                               placeholder="<#if user.cv.firstName??>${user.cv.firstName}<#else>First name</#if>"
-                                                                               value="<#if user.cv.firstName??>${user.cv.firstName}<#else>First name</#if>">
+                                                                               name="firstName" <#if isRecruiter> readonly</#if>
+                                                                               placeholder="<#if candidate.cv.firstName??>${candidate.cv.firstName}<#else>First name</#if>"
+                                                                               value="<#if candidate.cv.firstName??>${candidate.cv.firstName}<#else>First name</#if>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col">
                                                                     <div class="form-group">
                                                                         <label>Last Name</label>
                                                                         <input class="form-control" type="text"
-                                                                               name="lastName"
-                                                                               placeholder="<#if user.cv.lastName??>${user.cv.lastName}<#else>Last name</#if>"
-                                                                               value="<#if user.cv.lastName??>${user.cv.lastName}<#else>Last name</#if>">
+                                                                               name="lastName" <#if isRecruiter> readonly</#if>
+                                                                               placeholder="<#if candidate.cv.lastName??>${candidate.cv.lastName}<#else>Last name</#if>"
+                                                                               value="<#if candidate.cv.lastName??>${candidate.cv.lastName}<#else>Last name</#if>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -85,18 +86,18 @@
                                                             <div class="form-group">
                                                                 <label>Position </label>
                                                                 <input class="form-control" type="text"
-                                                                       name="position"
-                                                                       placeholder="<#if user.cv.position??>${user.cv.position}<#else> </#if>"
-                                                                       value="<#if user.cv.position??>${user.cv.position}<#else> </#if>">
+                                                                       name="position" <#if isRecruiter> readonly</#if>
+                                                                       placeholder="<#if candidate.cv.position??>${candidate.cv.position}<#else> </#if>"
+                                                                       value="<#if candidate.cv.position??>${candidate.cv.position}<#else> </#if>">
                                                             </div>
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group">
                                                                 <label>Years of experience </label>
                                                                 <input class="form-control" type="text"
-                                                                       name="experience"
-                                                                       placeholder="<#if user.cv.experience??>${user.cv.experience}<#else> </#if>"
-                                                                       value="<#if user.cv.experience??>${user.cv.experience}<#else> </#if>">
+                                                                       name="experience" <#if isRecruiter> readonly</#if>
+                                                                       placeholder="<#if candidate.cv.experience??>${candidate.cv.experience}<#else> </#if>"
+                                                                       value="<#if candidate.cv.experience??>${candidate.cv.experience}<#else> </#if>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -105,9 +106,9 @@
                                                             <div class="form-group">
                                                                 <label>Title </label>
                                                                 <input class="form-control" type="text"
-                                                                       name="title"
-                                                                       placeholder="<#if user.cv.title??>${user.cv.title}<#else> </#if>"
-                                                                       value="<#if user.cv.title??>${user.cv.title}<#else> </#if>">
+                                                                       name="title" <#if isRecruiter> readonly</#if>
+                                                                       placeholder="<#if candidate.cv.title??>${candidate.cv.title}<#else> </#if>"
+                                                                       value="<#if candidate.cv.title??>${candidate.cv.title}<#else> </#if>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -116,9 +117,9 @@
                                                             <div class="form-group">
                                                                 <label>Nationality: </label>
                                                                 <input class="form-control" type="text"
-                                                                       name="nationality"
-                                                                       placeholder=" <p><#if user.cv.nationality??>${user.cv.nationality}<#else> </#if>"
-                                                                       value="<#if user.cv.nationality??>${user.cv.nationality}<#else> </#if>">
+                                                                       name="nationality" <#if isRecruiter> readonly</#if>
+                                                                       placeholder=" <p><#if candidate.cv.nationality??>${candidate.cv.nationality}<#else> </#if>"
+                                                                       value="<#if candidate.cv.nationality??>${candidate.cv.nationality}<#else> </#if>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -127,9 +128,9 @@
                                                             <div class="form-group">
                                                                 <label>Currently living in city: </label>
                                                                 <input class="form-control" type="text"
-                                                                       name="city"
-                                                                       placeholder=" <p><#if user.cv.city??>${user.cv.city}<#else> </#if>"
-                                                                       value="<#if user.cv.city??>${user.cv.city}<#else> </#if>">
+                                                                       name="city" <#if isRecruiter> readonly</#if>
+                                                                       placeholder=" <p><#if candidate.cv.city??>${candidate.cv.city}<#else> </#if>"
+                                                                       value="<#if candidate.cv.city??>${candidate.cv.city}<#else> </#if>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,9 +139,9 @@
                                                             <div class="form-group">
                                                                 <label>Email</label>
                                                                 <input class="form-control" type="text"
-                                                                       name="email"
-                                                                       placeholder="${user.email}"
-                                                                       value="${user.email}">
+                                                                       name="email" <#if isRecruiter> readonly</#if>
+                                                                       placeholder="${candidate.email}"
+                                                                       value="${candidate.email}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -149,9 +150,9 @@
                                                             <div class="form-group">
                                                                 <label>Phone</label>
                                                                 <input class="form-control" type="text"
-                                                                       name="phone"
-                                                                       placeholder="<#if user.cv.phone??>${user.cv.phone}<#else>+380*********</#if>"
-                                                                       value="<#if user.cv.phone??>${user.cv.phone}<#else> </#if>">
+                                                                       name="phone" <#if isRecruiter> readonly</#if>
+                                                                       placeholder="<#if candidate.cv.phone??>${candidate.cv.phone}<#else>+380*********</#if>"
+                                                                       value="<#if candidate.cv.phone??>${candidate.cv.phone}<#else> </#if>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -159,20 +160,22 @@
                                                         <div class="col mb-3" style="margin: 0rem!important">
                                                             <div class="form-group">
                                                                 <label>About</label>
-                                                                <textarea class="form-control" rows="5"
+                                                                <textarea class="form-control" rows="5" <#if isRecruiter> readonly</#if>
                                                                           name="description"
-                                                                          placeholder="<#if user.cv.description??>${user.cv.description}<#else>My bio</#if>"><#if user.cv.description??>${user.cv.description}<#else></#if></textarea>
+                                                                          placeholder="<#if candidate.cv.description??>${candidate.cv.description}<#else>My bio</#if>"><#if candidate.cv.description??>${candidate.cv.description}<#else></#if></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                                                    <div class="row form-group">
-                                                        <div class="col d-flex justify-content-end">
-                                                            <input type="submit" class="btn btn-info btn-primary"
-                                                                   value="Save Changes"/>
+                                                    <#if !isRecruiter>
+                                                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                                        <div class="row form-group">
+                                                            <div class="col d-flex justify-content-end">
+                                                                <input type="submit" class="btn btn-info btn-primary"
+                                                                       value="Save Changes"/>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </#if>
                                                 </form>
                                             </div>
                                         </div>

@@ -101,5 +101,9 @@ public class UserService implements UserDetailsService {
 		userRepo.save(user);
 		return user;
 	}
+
+	public User findById(Long userId) {
+		return userRepo.findById(userId).get();
+	}
 }
 

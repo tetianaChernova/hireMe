@@ -14,7 +14,7 @@
                     <a class="nav-link" href="/users">Posts</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/candidate-list">Candidate list</a>
+                    <a class="nav-link" href="/candidates-list">Candidate list</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/users/recommendations">Recommendations</a>
@@ -22,7 +22,7 @@
             </#if>
             <#if user?? && !isRecruiter>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/users/cv">My CV</a>
+                    <a class="nav-link" href="/users/cv/${currentUserId}">My CV</a>
                 </li>
             </#if>
         </ul>
