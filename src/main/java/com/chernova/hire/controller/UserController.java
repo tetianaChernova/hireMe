@@ -28,7 +28,7 @@ public class UserController {
 	@PreAuthorize("hasAuthority('RECRUITER')")
 	@GetMapping
 	public String getUsers(Model model) {
-		model.addAttribute("users", userService.findAll());
+		model.addAttribute("candidates", userService.findAll());
 		return "posts";
 	}
 
