@@ -2,8 +2,12 @@ package com.chernova.hire.service;
 
 import com.chernova.hire.dto.ProfileEditDto;
 import com.chernova.hire.model.CurriculumVitae;
+import com.chernova.hire.model.NeoCv;
+import com.chernova.hire.model.NeoUser;
 import com.chernova.hire.model.Role;
 import com.chernova.hire.model.User;
+import com.chernova.hire.repo.NeoCvRepo;
+import com.chernova.hire.repo.NeoUserRepo;
 import com.chernova.hire.repo.UserRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,8 +29,10 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class UserService implements UserDetailsService {
 	@Resource
 	private UserRepo userRepo;
-	//	@Autowired
-//	private UserRepository userNeo4jRepo;
+	@Resource
+	private NeoUserRepo neoUserRepo;
+	@Resource
+	private NeoCvRepo neoCvRepo;
 	@Resource
 	private MailService mailService;
 	@Resource
@@ -53,7 +59,6 @@ public class UserService implements UserDetailsService {
 		CurriculumVitae cv = CurriculumVitae.builder().user(user).build();
 		user.setCv(cv);
 		userRepo.save(user);
-
 		if (isFalse(isEmpty(user.getEmail()))) {
 			sendMessage(user);
 		}
@@ -77,6 +82,14 @@ public class UserService implements UserDetailsService {
 		user.setActive(true);
 		user.setActivationCode(null);
 		userRepo.save(user);
+		NeoUser neoUser = NeoUser.builder()
+				.username(user.getUsername())
+				.build();
+		NeoCv neoCv = NeoCv.builder()
+				.username(user.getUsername())
+				.build();
+		neoUserRepo.save(neoUser);
+		neoCvRepo.save(neoCv);
 		return true;
 	}
 
