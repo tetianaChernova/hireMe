@@ -15,7 +15,7 @@
                             </thead>
                             <tbody>
                             <#list candidates as candidate>
-                                <tr class="candidates-list">
+                                <tr class="candidates-list" id="${candidate.id}">
                                     <td class="title">
                                         <div class="row">
                                             <div class="thumb">
@@ -71,14 +71,14 @@
                                             <li><a href="/users/cv/${candidate.id}" class="text-primary"
                                                    data-toggle="tooltip" title=""
                                                    data-original-title="view"><i class="far fa-eye"></i></a></li>
-                                            <li><a href="#" class="text-danger" data-toggle="tooltip" title=""
+                                            <li><a onclick="deleteCandidateFromList(${candidate.id})"
+                                                   class="text-danger" data-toggle="tooltip" title=""
                                                    style="margin-left: 1rem"
                                                    data-original-title="Delete"><i class="far fa-trash-alt"></i></a>
                                             </li>
                                         </ul>
                                     </td>
                                 </tr>
-
                             <#else>
                             </#list>
                             </tbody>
@@ -100,3 +100,25 @@
         </div>
     </div>
 </@c.page>
+
+<script>
+    $(function () {
+        deleteCandidateFromList = function (candidateId) {
+            // e.preventDefault();
+            $.ajax({
+                type: "DELETE",
+                url: "/users/cv/" + candidateId,
+                data: {
+                    '_csrf': "${_csrf.token}"
+                },
+                success: function (result) {
+                    console.log('#' + candidateId)
+                    $('#' + candidateId).remove();
+                },
+                error: function (result) {
+                    alert("Can't remove user from liked list");
+                }
+            });
+        };
+    });
+</script>

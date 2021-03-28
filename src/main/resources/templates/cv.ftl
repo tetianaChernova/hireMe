@@ -17,14 +17,19 @@
                                                         <div class="mx-auto" style="width: 140px;">
                                                             <#if candidate??>
                                                                 <#if candidate.filename??>
-                                                                    <img src="/img/${candidate.filename}" alt="Circle Image"
+                                                                    <img src="/img/${candidate.filename}"
+                                                                         alt="Circle Image"
                                                                          class="img-raised rounded-circle img-fluid"
                                                                          style="width: 140px;height: 140px;">
                                                                 <#else>
-                                                                    <div class="d-flex justify-content-center align-items-center rounded"
-                                                                         style="height: 140px; background-color: rgb(233, 236, 239);">
-                                                                        <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
-                                                                    </div>
+                                                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                                                         alt="Circle Image"
+                                                                         class="img-raised rounded-circle img-fluid"
+                                                                         style="width: 140px;height: 140px;">
+<#--                                                                    <div class="d-flex justify-content-center align-items-center rounded"-->
+<#--                                                                         style="height: 140px; background-color: rgb(233, 236, 239);">-->
+<#--                                                                        <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>-->
+<#--                                                                    </div>-->
                                                                 </#if>
                                                             </#if>
                                                         </div>
@@ -55,7 +60,8 @@
                                         </ul>
                                         <div class="tab-content pt-3" style="margin: 1rem!important;">
                                             <div class="tab-pane active">
-                                                <form class="form" novalidate="" action="/users/cv/${candidate.id}/edit" method="post"
+                                                <form class="form" novalidate="" action="/users/cv/${candidate.id}/edit"
+                                                      method="post"
                                                       id="editForm" enctype="multipart/form-data">
                                                     <div class="row">
                                                         <div class="col">
@@ -159,8 +165,9 @@
                                                     <div class="row">
                                                         <div class="col mb-3" style="margin: 0rem!important">
                                                             <div class="form-group">
-                                                                <label>About</label>
-                                                                <textarea class="form-control" rows="5" <#if isRecruiter> readonly</#if>
+                                                                <label>Work experience</label>
+                                                                <textarea class="form-control"
+                                                                          rows="5" <#if isRecruiter> readonly</#if>
                                                                           name="description"
                                                                           placeholder="<#if candidate.cv.description??>${candidate.cv.description}<#else>My bio</#if>"><#if candidate.cv.description??>${candidate.cv.description}<#else></#if></textarea>
                                                             </div>

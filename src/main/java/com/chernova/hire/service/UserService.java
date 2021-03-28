@@ -47,6 +47,10 @@ public class UserService implements UserDetailsService {
 		return user;
 	}
 
+	public List<User> findAllByUsernames(List<String> usernames){
+		return userRepo.findAllByUsernameIn(usernames);
+	}
+
 	public boolean addUser(User user) {
 		User userFromDb = userRepo.findByUsername(user.getUsername());
 		if (nonNull(userFromDb)) {
@@ -82,19 +86,27 @@ public class UserService implements UserDetailsService {
 		user.setActive(true);
 		user.setActivationCode(null);
 		userRepo.save(user);
-		NeoUser neoUser = NeoUser.builder()
-				.username(user.getUsername())
-				.build();
-		NeoCv neoCv = NeoCv.builder()
-				.username(user.getUsername())
-				.build();
-		neoUserRepo.save(neoUser);
-		neoCvRepo.save(neoCv);
+		if (user.isRecruiter()) {
+			NeoUser neoUser = NeoUser.builder()
+					.username(user.getUsername())
+					.build();
+			neoUserRepo.save(neoUser);
+		}
+		else{
+			NeoCv neoCv = NeoCv.builder()
+					.username(user.getUsername())
+					.build();
+			neoCvRepo.save(neoCv);
+		}
 		return true;
 	}
 
 	public List<User> findAll() {
 		return userRepo.findAll();
+	}
+
+	public List<String> findAllLikedCvs(String username) {
+		return neoUserRepo.getLikedCvs(username);
 	}
 
 	public User updateProfile(User user, ProfileEditDto profileEditDto) {
@@ -117,6 +129,15 @@ public class UserService implements UserDetailsService {
 
 	public User findById(Long userId) {
 		return userRepo.findById(userId).get();
+	}
+
+	public void likeCv(String username, String cvOwner){
+		neoUserRepo.likeCv(username, cvOwner);
+	}
+
+	public void unlike(String username, String cvOwner) {
+		neoUserRepo.unLikeCv(username, cvOwner);
+
 	}
 }
 
