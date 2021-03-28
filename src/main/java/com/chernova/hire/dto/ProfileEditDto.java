@@ -17,6 +17,7 @@ public class ProfileEditDto {
 	private String position;
 	private Integer experience;
 	private String title;
+	private String mainTechnology;
 	private String nationality;
 	private String city;
 	private String email;

@@ -26,10 +26,6 @@
                                                                          alt="Circle Image"
                                                                          class="img-raised rounded-circle img-fluid"
                                                                          style="width: 140px;height: 140px;">
-<#--                                                                    <div class="d-flex justify-content-center align-items-center rounded"-->
-<#--                                                                         style="height: 140px; background-color: rgb(233, 236, 239);">-->
-<#--                                                                        <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>-->
-<#--                                                                    </div>-->
                                                                 </#if>
                                                             </#if>
                                                         </div>
@@ -115,6 +111,17 @@
                                                                        name="title" <#if isRecruiter> readonly</#if>
                                                                        placeholder="<#if candidate.cv.title??>${candidate.cv.title}<#else> </#if>"
                                                                        value="<#if candidate.cv.title??>${candidate.cv.title}<#else> </#if>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Main technology </label>
+                                                                <input class="form-control" type="text"
+                                                                       name="mainTechnology" <#if isRecruiter> readonly</#if>
+                                                                       placeholder="<#if candidate.cv.mainTechnology??>${candidate.cv.mainTechnology}<#else> </#if>"
+                                                                       value="<#if candidate.cv.mainTechnology??>${candidate.cv.mainTechnology}<#else> </#if>">
                                                             </div>
                                                         </div>
                                                     </div>

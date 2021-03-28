@@ -21,6 +21,7 @@
                                 </#if>
                                 <h5 class="card-title"><#if candidate.cv.firstName??>${candidate.cv.firstName}<#else>First name</#if> <#if candidate.cv.lastName??>${candidate.cv.lastName}<#else>Last name</#if></h5>
                                 <p class="text-secondary mb-1"><#if candidate.cv.position??>${candidate.cv.position}<#else>Position</#if></p>
+                                <p class="text-secondary mb-1">Main technology: <#if candidate.cv.mainTechnology??>${candidate.cv.mainTechnology}<#else> </#if></p>
                                 <p class="text-muted font-size-sm"><#if candidate.cv.city??>${candidate.cv.city}<#else>city</#if></p>
                             </div>
                             <div class="card-footer">

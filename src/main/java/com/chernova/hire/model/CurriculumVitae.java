@@ -30,6 +30,8 @@ public class CurriculumVitae {
 	private String phone;
 	private String position;
 	private String title;
+	@Column(name = "main_technology")
+	private String mainTechnology;
 	@Column(length = 2048)
 	private String description;
 	private Integer experience;

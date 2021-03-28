@@ -23,6 +23,7 @@ import java.util.UUID;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Service
@@ -47,7 +48,7 @@ public class UserService implements UserDetailsService {
 		return user;
 	}
 
-	public List<User> findAllByUsernames(List<String> usernames){
+	public List<User> findAllByUsernames(List<String> usernames) {
 		return userRepo.findAllByUsernameIn(usernames);
 	}
 
@@ -91,10 +92,10 @@ public class UserService implements UserDetailsService {
 					.username(user.getUsername())
 					.build();
 			neoUserRepo.save(neoUser);
-		}
-		else{
+		} else {
 			NeoCv neoCv = NeoCv.builder()
 					.username(user.getUsername())
+					.mainTechnology(EMPTY)
 					.build();
 			neoCvRepo.save(neoCv);
 		}
@@ -121,6 +122,14 @@ public class UserService implements UserDetailsService {
 		cv.setPosition(profileEditDto.getPosition());
 		cv.setTitle(profileEditDto.getTitle());
 		cv.setPhone(profileEditDto.getPhone());
+		if (!profileEditDto.getMainTechnology().equals(cv.getMainTechnology())) {
+			NeoCv neoCv = neoCvRepo.findNeoCvByUsername(user.getUsername());
+			if (nonNull(neoCv)) {
+				neoCv.setMainTechnology(profileEditDto.getMainTechnology());
+				neoCvRepo.save(neoCv);
+			}
+		}
+		cv.setMainTechnology(profileEditDto.getMainTechnology());
 		cv.setUser(user);
 		user.setCv(cv);
 		userRepo.save(user);
@@ -131,13 +140,17 @@ public class UserService implements UserDetailsService {
 		return userRepo.findById(userId).get();
 	}
 
-	public void likeCv(String username, String cvOwner){
+	public void likeCv(String username, String cvOwner) {
 		neoUserRepo.likeCv(username, cvOwner);
 	}
 
 	public void unlike(String username, String cvOwner) {
 		neoUserRepo.unLikeCv(username, cvOwner);
 
+	}
+
+	public List<User> getRecommendationsForUser(String username) {
+		return findAllByUsernames(neoUserRepo.findRecommendationsForUser(username));
 	}
 }
 

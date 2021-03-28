@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Controller
@@ -72,6 +73,15 @@ public class UserController {
 		User updatedUser = userService.updateProfile(user, profileEditDto);
 		model.addAttribute("user", updatedUser);
 		return "redirect:/users/cv/" + userId;
+	}
+
+	@PreAuthorize("hasAuthority('RECRUITER')")
+	@GetMapping("/recommendations")
+	public String recommendations(Model model, @AuthenticationPrincipal User user) {
+		model.addAttribute("candidates",
+				userService.getRecommendationsForUser(user.getUsername()));
+		model.addAttribute("likedCandidates", Collections.emptyList());
+		return "posts";
 	}
 
 }

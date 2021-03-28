@@ -30,6 +30,8 @@ public class NeoCv {
 
 	private String username;
 
+	private String mainTechnology;
+
 	@Relationship(type = "LIKED", direction = "INCOMING")
 	public Set<NeoUser> likedBy;
 
