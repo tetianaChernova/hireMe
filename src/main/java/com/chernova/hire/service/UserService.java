@@ -149,8 +149,8 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public List<User> getRecommendationsForUser(String username) {
-		return findAllByUsernames(neoUserRepo.findRecommendationsForUser(username));
+	public List<User> getRecommendationsForUser(String username, String filter) {
+		return findAllByUsernames(neoUserRepo.findRecommendationsForUser(username, filter));
 	}
 }
 

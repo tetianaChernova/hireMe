@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -38,6 +39,8 @@ public class UserController {
 						.filter(candidate -> !candidate.isRecruiter())
 						.collect(Collectors.toList()));
 		model.addAttribute("likedCandidates", userService.findAllLikedCvs(authenticatedUser.getUsername()));
+		model.addAttribute("filter", "");
+		model.addAttribute("isRecommendationsPage", false);
 		return "posts";
 	}
 
@@ -77,10 +80,14 @@ public class UserController {
 
 	@PreAuthorize("hasAuthority('RECRUITER')")
 	@GetMapping("/recommendations")
-	public String recommendations(Model model, @AuthenticationPrincipal User user) {
+	public String recommendations(Model model,
+								  @RequestParam(required = false, defaultValue = "") String filter,
+								  @AuthenticationPrincipal User user) {
 		model.addAttribute("candidates",
-				userService.getRecommendationsForUser(user.getUsername()));
+				userService.getRecommendationsForUser(user.getUsername(), filter));
 		model.addAttribute("likedCandidates", Collections.emptyList());
+		model.addAttribute("isRecommendationsPage", true);
+		model.addAttribute("filter", filter);
 		return "posts";
 	}
 

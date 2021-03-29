@@ -2,6 +2,19 @@
 <@c.page "/static/posts.css">
     <div class="container">
         <div class="main-body">
+                <#if isRecommendationsPage>
+                    <div class="form-group mt-3">
+                        <form method="get" action="recommendations">
+                            <div class="row">
+                                <input type="text" name="filter" class="form-control" value="${filter!}"
+                                       placeholder="Search recommendations by main technology"/>
+                                <button type="submit" style="visibility: hidden;"
+                                        class="btn btn-info btn-primary">Search
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </#if>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gutters-sm">
                 <#list candidates as candidate>
                     <div class="col mb-3">

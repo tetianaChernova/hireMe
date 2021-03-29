@@ -25,9 +25,10 @@ public interface NeoUserRepo extends Neo4jRepository<NeoUser, Long> {
 	@Query("MATCH (user:NeoUser {username: $username})-[:LIKED]->(cv:NeoCv)<-[:LIKED]-(coCoUser:NeoUser)-[:LIKED]->(cvOther:NeoCv)\n" +
 			"WHERE user <> coCoUser\n" +
 			"AND NOT (user)-[:LIKED]->(cvOther)\n" +
+			"AND $filter IS NULL OR $filter = '' OR cvOther.mainTechnology contains $filter \n" +
 			"WITH cvOther AS recommendation, count(cvOther) as frequency\n" +
 			"RETURN recommendation.username\n" +
 			"ORDER BY frequency DESC\n" +
 			"LIMIT 5")
-	List<String> findRecommendationsForUser(String username);
+	List<String> findRecommendationsForUser(String username, String filter);
 }
