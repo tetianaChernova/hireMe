@@ -32,6 +32,8 @@ public class NeoCv {
 
 	private String mainTechnology;
 
+	private Integer experience;
+
 	@Relationship(type = "LIKED", direction = "INCOMING")
 	public Set<NeoUser> likedBy;
 

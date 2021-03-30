@@ -81,13 +81,15 @@ public class UserController {
 	@PreAuthorize("hasAuthority('RECRUITER')")
 	@GetMapping("/recommendations")
 	public String recommendations(Model model,
-								  @RequestParam(required = false, defaultValue = "") String filter,
+								  @RequestParam(required = false, defaultValue = "") String technologyFilter,
+								  @RequestParam(required = false, defaultValue = "1") Integer experienceFilter,
 								  @AuthenticationPrincipal User user) {
 		model.addAttribute("candidates",
-				userService.getRecommendationsForUser(user.getUsername(), filter));
+				userService.getRecommendationsForUser(user.getUsername(), technologyFilter, experienceFilter));
 		model.addAttribute("likedCandidates", Collections.emptyList());
 		model.addAttribute("isRecommendationsPage", true);
-		model.addAttribute("filter", filter);
+		model.addAttribute("technologyFilter", technologyFilter);
+		model.addAttribute("experienceFilter", experienceFilter);
 		return "posts";
 	}
 

@@ -96,6 +96,7 @@ public class UserService implements UserDetailsService {
 			NeoCv neoCv = NeoCv.builder()
 					.username(user.getUsername())
 					.mainTechnology(EMPTY)
+					.experience(1)
 					.build();
 			neoCvRepo.save(neoCv);
 		}
@@ -118,17 +119,18 @@ public class UserService implements UserDetailsService {
 		cv.setCity(profileEditDto.getCity());
 		cv.setNationality(profileEditDto.getNationality());
 		cv.setDescription(profileEditDto.getDescription());
-		cv.setExperience(profileEditDto.getExperience());
 		cv.setPosition(profileEditDto.getPosition());
 		cv.setTitle(profileEditDto.getTitle());
 		cv.setPhone(profileEditDto.getPhone());
-		if (!profileEditDto.getMainTechnology().equals(cv.getMainTechnology())) {
+		if (!profileEditDto.getMainTechnology().equals(cv.getMainTechnology()) || !profileEditDto.getExperience().equals(cv.getExperience())) {
 			NeoCv neoCv = neoCvRepo.findNeoCvByUsername(user.getUsername());
 			if (nonNull(neoCv)) {
 				neoCv.setMainTechnology(profileEditDto.getMainTechnology());
+				neoCv.setExperience(profileEditDto.getExperience());
 				neoCvRepo.save(neoCv);
 			}
 		}
+		cv.setExperience(profileEditDto.getExperience());
 		cv.setMainTechnology(profileEditDto.getMainTechnology());
 		cv.setUser(user);
 		user.setCv(cv);
@@ -149,8 +151,8 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public List<User> getRecommendationsForUser(String username, String filter) {
-		return findAllByUsernames(neoUserRepo.findRecommendationsForUser(username, filter));
+	public List<User> getRecommendationsForUser(String username, String technologyFilter, Integer experienceFilter) {
+		return findAllByUsernames(neoUserRepo.findRecommendationsForUser(username, technologyFilter, experienceFilter));
 	}
 }
 

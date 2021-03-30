@@ -2,19 +2,29 @@
 <@c.page "/static/posts.css">
     <div class="container">
         <div class="main-body">
-                <#if isRecommendationsPage>
-                    <div class="form-group mt-3">
-                        <form method="get" action="recommendations">
-                            <div class="row">
-                                <input type="text" name="filter" class="form-control" value="${filter!}"
-                                       placeholder="Search recommendations by main technology"/>
-                                <button type="submit" style="visibility: hidden;"
-                                        class="btn btn-info btn-primary">Search
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </#if>
+            <#if isRecommendationsPage>
+                <div class="form-group mt-3">
+                    <form method="get" action="recommendations">
+                        <div class="row">
+                            <input type="text" name="technologyFilter" class="form-control" value="${technologyFilter!}"
+                                   placeholder="Search recommendations by main technology"/>
+                            <input id="ex6"
+                                   type="range"
+                                   name="experienceFilter"
+                                   class="form-control"
+                                   value="${experienceFilter!}"
+                                   placeholder="${experienceFilter!}"
+                                   onchange="updateTextInput(this.value);"
+                                   data-slider-step="1" min="0" max="15"/>
+                            <span>Minimum years of experience: <span
+                                        id="rangeValueText">${experienceFilter!}</span></span>
+                            <button type="submit" style="visibility: hidden;"
+                                    class="btn btn-info btn-primary">Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </#if>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gutters-sm">
                 <#list candidates as candidate>
                     <div class="col mb-3">
@@ -34,7 +44,8 @@
                                 </#if>
                                 <h5 class="card-title"><#if candidate.cv.firstName??>${candidate.cv.firstName}<#else>First name</#if> <#if candidate.cv.lastName??>${candidate.cv.lastName}<#else>Last name</#if></h5>
                                 <p class="text-secondary mb-1"><#if candidate.cv.position??>${candidate.cv.position}<#else>Position</#if></p>
-                                <p class="text-secondary mb-1">Main technology: <#if candidate.cv.mainTechnology??>${candidate.cv.mainTechnology}<#else> </#if></p>
+                                <p class="text-secondary mb-1">Main
+                                    technology: <#if candidate.cv.mainTechnology??>${candidate.cv.mainTechnology}<#else> </#if></p>
                                 <p class="text-muted font-size-sm"><#if candidate.cv.city??>${candidate.cv.city}<#else>city</#if></p>
                             </div>
                             <div class="card-footer">
@@ -82,4 +93,9 @@
             });
         };
     });
+
+    function updateTextInput(value) {
+        console.log("value is: ", value);
+        document.getElementById('rangeValueText').innerHTML = value;
+    }
 </script>
