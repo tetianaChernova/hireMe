@@ -42,7 +42,7 @@ public class RegistrationController {
 	public String addUser(
 			@RequestParam("file") MultipartFile file,
 			@RequestParam("passwordConfirm") String passwordConfirm,
-			@RequestParam("isRecruiter") Boolean isRecruiter,
+			@RequestParam(value = "isRecruiter", defaultValue = "false") Boolean isRecruiter,
 			@Valid User user,
 			BindingResult bindingResult,
 			Model model) throws IOException {

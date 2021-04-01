@@ -67,18 +67,13 @@ public class UserService implements UserDetailsService {
 		}
 		userRepo.save(user);
 		if (isFalse(isEmpty(user.getEmail()))) {
-			sendMessage(user);
+			sendActivationCodeMessage(user);
 		}
 		return true;
 	}
 
-	private void sendMessage(User user) {
-		String message = String.format(
-				"Hello %s! \n" + "Welcome to HireMe! Please visit next link: http:/localhost:9000/activate/%s",
-				user.getUsername(), user.getActivationCode()
-		);
-
-		mailService.send(user.getEmail(), "Activation code", message);
+	private void sendActivationCodeMessage(User user) {
+		mailService.sendGreetingEmail(user);
 	}
 
 	public boolean activateUser(String code) {
@@ -144,8 +139,10 @@ public class UserService implements UserDetailsService {
 		return userRepo.findById(userId).get();
 	}
 
-	public void likeCv(String username, String cvOwner) {
-		neoUserRepo.likeCv(username, cvOwner);
+	public void likeCv(User user, Long candidateId) {
+		User cvOwner = findById(candidateId);
+		neoUserRepo.likeCv(user.getUsername(), cvOwner.getUsername());
+		mailService.sendCandidateInformationEmail(user, cvOwner);
 	}
 
 	public void unlike(String username, String cvOwner) {

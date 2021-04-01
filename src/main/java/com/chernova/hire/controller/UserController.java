@@ -56,7 +56,7 @@ public class UserController {
 	@PostMapping("/cv/{candidateId}/like")
 	public String likeCandidateProfile(@AuthenticationPrincipal User authenticatedUser,
 									   @PathVariable Long candidateId) {
-		userService.likeCv(authenticatedUser.getUsername(), userService.findById(candidateId).getUsername());
+		userService.likeCv(authenticatedUser, candidateId);
 		return "ok";
 	}
 
