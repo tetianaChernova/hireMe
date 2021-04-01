@@ -74,6 +74,10 @@
                         </div>
                     </#if></#if>
                 </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="isRecruiter" name="isRecruiter">
+                    <label class="form-check-label" style=" font-size: 16px;" for="isRecruiter">I'm recruiter</label>
+                </div>
             </#if>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             <div class="form-group">

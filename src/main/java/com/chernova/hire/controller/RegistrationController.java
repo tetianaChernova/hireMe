@@ -42,6 +42,7 @@ public class RegistrationController {
 	public String addUser(
 			@RequestParam("file") MultipartFile file,
 			@RequestParam("passwordConfirm") String passwordConfirm,
+			@RequestParam("isRecruiter") Boolean isRecruiter,
 			@Valid User user,
 			BindingResult bindingResult,
 			Model model) throws IOException {
@@ -63,7 +64,7 @@ public class RegistrationController {
 		if (nonNull(filename) && isFalse(isEmpty(filename))) {
 			user.setFilename(filename);
 		}
-		if (isFalse(userService.addUser(user))) {
+		if (isFalse(userService.addUser(user, isRecruiter))) {
 			model.addAttribute("usernameError", "User exists!");
 			return "registration";
 		}

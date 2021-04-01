@@ -52,17 +52,19 @@ public class UserService implements UserDetailsService {
 		return userRepo.findAllByUsernameIn(usernames);
 	}
 
-	public boolean addUser(User user) {
+	public boolean addUser(User user, boolean isRecruiter) {
 		User userFromDb = userRepo.findByUsername(user.getUsername());
 		if (nonNull(userFromDb)) {
 			return false;
 		}
 		user.setActive(false);
-		user.setRoles(Collections.singleton(Role.USER));
+		user.setRoles(isRecruiter ? Collections.singleton(Role.RECRUITER) : Collections.singleton(Role.USER));
 		user.setActivationCode(UUID.randomUUID().toString());
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		CurriculumVitae cv = CurriculumVitae.builder().user(user).build();
-		user.setCv(cv);
+		if (!isRecruiter) {
+			CurriculumVitae cv = CurriculumVitae.builder().user(user).build();
+			user.setCv(cv);
+		}
 		userRepo.save(user);
 		if (isFalse(isEmpty(user.getEmail()))) {
 			sendMessage(user);
