@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -30,7 +31,7 @@ public class RegistrationController {
 	@Value("${upload.path}")
 	private String uploadPath;
 
-	@Autowired
+	@Resource
 	private UserService userService;
 
 	@GetMapping("/registration")

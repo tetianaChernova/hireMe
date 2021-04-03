@@ -100,8 +100,8 @@ public class UserService implements UserDetailsService {
 		return true;
 	}
 
-	public List<User> findAll() {
-		return userRepo.findAll();
+	public List<User> findAll(String technologyFilter, Integer experienceFilter) {
+		return userRepo.findAllWithFilters("%" + technologyFilter + "%", experienceFilter);
 	}
 
 	public List<String> findAllLikedCvs(String username) {
@@ -147,7 +147,6 @@ public class UserService implements UserDetailsService {
 
 	public void unlike(String username, String cvOwner) {
 		neoUserRepo.unLikeCv(username, cvOwner);
-
 	}
 
 	public List<User> getRecommendationsForUser(String username, String technologyFilter, Integer experienceFilter) {

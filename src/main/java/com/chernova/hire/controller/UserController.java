@@ -32,15 +32,19 @@ public class UserController {
 
 	@PreAuthorize("hasAuthority('RECRUITER')")
 	@GetMapping
-	public String getUsers(Model model, @AuthenticationPrincipal User authenticatedUser) {
+	public String getUsers(Model model, @AuthenticationPrincipal User authenticatedUser,
+						   @RequestParam(required = false, defaultValue = "") String technologyFilter,
+						   @RequestParam(required = false, defaultValue = "1") Integer experienceFilter) {
 		model.addAttribute("candidates",
-				userService.findAll()
+				userService.findAll(technologyFilter, experienceFilter)
 						.stream()
 						.filter(candidate -> !candidate.isRecruiter())
 						.collect(Collectors.toList()));
 		model.addAttribute("likedCandidates", userService.findAllLikedCvs(authenticatedUser.getUsername()));
 		model.addAttribute("filter", "");
 		model.addAttribute("isRecommendationsPage", false);
+		model.addAttribute("technologyFilter", technologyFilter);
+		model.addAttribute("experienceFilter", experienceFilter);
 		return "posts";
 	}
 

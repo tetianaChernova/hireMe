@@ -2,9 +2,9 @@
 <@c.page "/static/posts.css">
     <div class="container">
         <div class="main-body">
-            <#if isRecommendationsPage>
+<#--            <#if isRecommendationsPage>-->
                 <div class="form-group mt-3">
-                    <form method="get" action="recommendations">
+                    <form method="get" action="<#if isRecommendationsPage>recommendations<#else>users</#if>">
                         <div class="row">
                             <input type="text" name="technologyFilter" class="form-control" value="${technologyFilter!}"
                                    placeholder="Search recommendations by main technology"/>
@@ -24,7 +24,7 @@
                         </div>
                     </form>
                 </div>
-            </#if>
+<#--            </#if>-->
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gutters-sm">
                 <#list candidates as candidate>
                     <div class="col mb-3">

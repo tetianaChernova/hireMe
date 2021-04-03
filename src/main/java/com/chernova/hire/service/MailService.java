@@ -5,6 +5,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
@@ -37,8 +38,8 @@ public class MailService {
 	@Resource
 	private Configuration getFreeMarkerConfiguration;
 
-	@Autowired
-	private JavaMailSender javaMailSender;
+	@Resource
+	private JavaMailSender customMailSender;
 
 	public void sendGreetingEmail(User receiver) {
 
@@ -65,7 +66,7 @@ public class MailService {
 		try {
 			MimeMessagePreparator mimeMessagePreparator = mimeMessage ->
 					prepareMimeMessage(htmlBody, to, mimeMessage, model, subject);
-			javaMailSender.send(mimeMessagePreparator);
+			customMailSender.send(mimeMessagePreparator);
 		} catch (MailException e) {
 			throw new MailSendException(Objects.requireNonNull(e.getMessage()));
 		}
