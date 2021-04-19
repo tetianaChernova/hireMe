@@ -2,29 +2,27 @@
 <@c.page "/static/posts.css">
     <div class="container">
         <div class="main-body">
-<#--            <#if isRecommendationsPage>-->
-                <div class="form-group mt-3">
-                    <form method="get" action="<#if isRecommendationsPage>recommendations<#else>users</#if>">
-                        <div class="row">
-                            <input type="text" name="technologyFilter" class="form-control" value="${technologyFilter!}"
-                                   placeholder="Search recommendations by main technology"/>
-                            <input id="ex6"
-                                   type="range"
-                                   name="experienceFilter"
-                                   class="form-control"
-                                   value="${experienceFilter!}"
-                                   placeholder="${experienceFilter!}"
-                                   onchange="updateTextInput(this.value);"
-                                   data-slider-step="1" min="0" max="15"/>
-                            <span>Minimum years of experience: <span
-                                        id="rangeValueText">${experienceFilter!}</span></span>
-                            <button type="submit" style="visibility: hidden;"
-                                    class="btn btn-info btn-primary">Search
-                            </button>
+            <div class="form-group mt-3">
+                <form method="get" action="<#if isRecommendationsPage>recommendations<#else>users</#if>">
+                    <div class="row">
+                        <input type="text" name="technologyFilter" class="form-control" value="${technologyFilter!}"
+                               placeholder="Search recommendations by main technology"/>
+                        <input id="ex6"
+                               type="range"
+                               name="experienceFilter"
+                               class="form-control"
+                               value="${experienceFilter!}"
+                               placeholder="${experienceFilter!}"
+                               onchange="updateTextInput(this.value);"
+                               data-slider-step="1" min="0" max="15"/>
+                        <span>Minimum years of experience: <span
+                                    id="rangeValueText">${experienceFilter!}</span></span>
+                        <div style="width: 100%; margin-top: 1rem">
+                            <button type="submit" class="btn btn-info btn-primary">Search</button>
                         </div>
-                    </form>
-                </div>
-<#--            </#if>-->
+                    </div>
+                </form>
+            </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gutters-sm">
                 <#list candidates as candidate>
                     <div class="col mb-3">

@@ -25,7 +25,7 @@ import static java.util.Objects.isNull;
 public class LoginUrlSuccessHandler implements AuthenticationSuccessHandler {
 
 	Logger logger = LoggerFactory.getLogger(LoginUrlSuccessHandler.class);
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
